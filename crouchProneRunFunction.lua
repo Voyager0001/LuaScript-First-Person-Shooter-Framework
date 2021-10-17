@@ -306,3 +306,27 @@ function handler:run(running)
 	
 	
 end
+function handler:jogging()
+	self.running=false
+	local tweeningInformation = TweenInfo.new(0.5, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+	TweenService:Create(self.lerpValues.run, tweeningInformation, { Value = 0 }):Play()	
+	
+	if self.jog then
+		ReplicatedStorage.weaponRemotes.jog:FireServer(false)
+		local tweeningInformation = TweenInfo.new(1, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+		TweenService:Create(self.lerpValues.jog, tweeningInformation, { Value = 0 }):Play()
+		
+	else
+		ReplicatedStorage.weaponRemotes.jog:FireServer(true)
+		local tweeningInformation = TweenInfo.new(1, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+		TweenService:Create(self.lerpValues.jog, tweeningInformation, { Value = 1 }):Play()
+	end
+	self.jog=not self.jog
+	local tweeningInformation = TweenInfo.new(self.crouchToStand.Length, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+	TweenService:Create(self.cDownValue, tweeningInformation, { Value = self.cOffsetStart }):Play()
+	self.crouching=false
+	self.proneLoop:Stop()
+	self.proneMoveLoop:Stop()
+	self.crouchWalk:Stop()
+	self.crouchLoop:Play()
+end
