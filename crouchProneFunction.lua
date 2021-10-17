@@ -1,3 +1,33 @@
+function handler:getDown()
+	if self.state==0 then
+		self:crouch(true)
+		self.state=1
+		WeaponGui.MainFrame.Poses.stand.Visible=false
+		WeaponGui.MainFrame.Poses.crouch.Visible=true
+	elseif self.state==1 then
+		self:crouch(false)
+		self:prone(true)
+		self.state=2
+		WeaponGui.MainFrame.Poses.prone.Visible=true
+		WeaponGui.MainFrame.Poses.crouch.Visible=false
+	end
+end
+
+function handler:getUp()
+	if self.state==2 then
+		self:prone(false)
+		self:crouch(true)
+		self.state=1
+		WeaponGui.MainFrame.Poses.crouch.Visible=true
+		WeaponGui.MainFrame.Poses.prone.Visible=false
+	elseif self.state==1 then
+		self:crouch(false)
+		self.state=0
+		WeaponGui.MainFrame.Poses.crouch.Visible=false
+		WeaponGui.MainFrame.Poses.stand.Visible=true
+	end
+end
+
 function handler:crouch(enabled)
 
 	if self.disabled then return end
