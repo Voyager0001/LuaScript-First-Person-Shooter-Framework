@@ -33,8 +33,7 @@ local whiteoff
 local backoff
 local d
 
--- Functions i like using and you will probably too.
--- Bobbing!
+
 
 local function getBobbing(addition, speed, modifier)
 	return math.sin(tick()*addition*speed)*modifier
@@ -129,8 +128,7 @@ end
 
 function handler:equip(wepName)
 
-	-- Explained how this works earlier. we can store variables too!
-	-- if the weapon is disabled, or equipped, remove it instead
+	
 	
 	--if self.disabled then return end
 	if self.equipping then return end
@@ -235,7 +233,7 @@ function handler:equip(wepName)
 	self.viewmodel.rootPart.weapon.Part1 = self.viewmodel.weaponRootPart
 	self.viewmodel["Left Arm"].leftHand.Part0 = self.viewmodel.weaponRootPart
 	self.viewmodel["Right Arm"].rightHand.Part0 = self.viewmodel.weaponRootPart
-	-- I legit forgot to do this in the first code revision.
+	
 	self.viewmodel.Parent = workspace.Camera
 	
 	
@@ -356,17 +354,7 @@ function handler:equip(wepName)
 	local tweeningInformation = TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
 	TweenService:Create(self.lerpValues.equip, tweeningInformation, { Value = 0 }):Play()		
 
-	--[[
-		Real life example:
-			
-		self.loadedAnimations.idle = self.viewmodel.Humanoid:LoadAnimation(self.settings.anims.viewmodel.idle)
-		self.loadedAnimations.idle:Play()
 	
-		self.tweenLerp("equip","In")
-		self.playSound("draw")
-		
-	--]]
-
 	-- coroutine'd because server requests are far from instant
 	coroutine.wrap(function()
 
@@ -376,7 +364,7 @@ function handler:equip(wepName)
 	end)()
 
 	self.curWeapon = wepName
-	self.equipped = true -- Yay! our gun is ready.
+	self.equipped = true -- our gun is ready.
 	equipped.Value=true
 	
 	
@@ -792,7 +780,7 @@ function handler:leanRight(leaningRight)
 		TweenService:Create(self.cOffsetValue, tweeningInformation, { Value = self.cOffsetStart }):Play()
 		self.rightDebounce=leaningRight
 	end
-	--print("eh")
+	
 	if self.rightDebounce==true then return end
 	if self.reloading then return end
 	if not self.equipped then return end
@@ -832,12 +820,12 @@ function handler:leanRight(leaningRight)
 
 	local a=self.loadedAnimations.right:GetMarkerReachedSignal("loopStop"):Connect(function(paramString)
 		if self.rightDebounce==true then
-			--print("why")
+			
 			self.loadedAnimations.right.TimePosition=self.rightLoopStart.Time
 		else
 			if debounce==false then
 				debounce=true
-				--print("why2")
+				
 				self.loadedAnimations.right.TimePosition=self.rightLoopStop.Time+.1
 				if a then a:Disconnect() a=nil end
 			end
@@ -1052,7 +1040,7 @@ function handler:fire(tofire)
 		sound.Parent = self.character[self.wepName].receiver 
 		sound:Play()
 
-		-- replace? i've heard bad things about debris service
+		
 		game:GetService("Debris"):AddItem(sound, 5)
 		
 		self.recoveryTime=self.settings.firing.recoveryTime
