@@ -220,3 +220,89 @@ function handler:prone(enabled)
 
 	
 end
+function handler:run(running)
+	
+	--if self.running~=running then return end
+	if self.reloading then return end
+	
+	self.running=running
+	
+	if running==true and gui.sprint.white.Size.X.Scale==0 then
+		
+	elseif running==true and gui.sprint.white.Size.X.Scale>0 then
+		
+		self:crouch(false)
+		self:prone(false)
+		d=tick()
+		
+		if whiteoff~=nil then
+			whiteoff:Pause()
+		end
+		if backoff~=nil  then
+			backoff:Pause()
+		end
+		
+		
+		local tweeningInformation = TweenInfo.new(1, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+		TweenService:Create(self.lerpValues.run, tweeningInformation, { Value = 1 }):Play()
+		
+		local tweeningInformation = TweenInfo.new(.5, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+		TweenService:Create(gui.sprint.white, tweeningInformation, { BackgroundTransparency = 0}):Play()
+		
+		local tweeningInformation = TweenInfo.new(.5, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+		TweenService:Create(gui.sprint.back, tweeningInformation, { BackgroundTransparency = .123}):Play()
+		
+		
+		if runGUI2~=nil then
+			runGUI2:Pause()
+		end
+		local tweeningInformation = TweenInfo.new(stamina, Enum.EasingStyle.Linear,Enum.EasingDirection.Out)
+		runGUI=TweenService:Create(gui.sprint.white, tweeningInformation, { Size = UDim2.new(0, 0,0.025, 0) })
+		runGUI:Play()
+		
+		
+		
+		
+		if self.crouchToStand~=nil then
+			local tweeningInformation = TweenInfo.new(self.crouchToStand.Length, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+			TweenService:Create(self.cDownValue, tweeningInformation, { Value = self.cOffsetStart }):Play()
+		end
+		
+		if WeaponGui~=nil then
+			WeaponGui.MainFrame.Poses.crouch.Visible=false
+			WeaponGui.MainFrame.Poses.prone.Visible=false
+			WeaponGui.MainFrame.Poses.stand.Visible=true
+		end
+		self.state=0
+		ReplicatedStorage.weaponRemotes.run:FireServer(true)
+		--self.loadedAnimations.run:Play()
+		
+	elseif running==false then
+		if self.crouching or self.proning then return end
+		local tweeningInformation = TweenInfo.new(0.5, Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+		TweenService:Create(self.lerpValues.run, tweeningInformation, { Value = 0 }):Play()	
+		
+		ReplicatedStorage.weaponRemotes.run:FireServer(false)
+		--self.loadedAnimations.run:Stop()
+		
+		
+		
+		
+		
+		if runGUI~=nil then
+			runGUI:Pause()
+		end
+		local tweeningInformation = TweenInfo.new(staminaRecovery, Enum.EasingStyle.Linear,Enum.EasingDirection.Out)
+		runGUI2=TweenService:Create(gui.sprint.white, tweeningInformation, { Size = UDim2.new(1.25, 0,0.025, 0) })
+		runGUI2:Play()
+		
+		
+		
+	end
+		
+	
+	
+	
+	
+	
+end
