@@ -1,7 +1,3 @@
--- modernized 14/09/2020
-
--- Coolio module stuff
-print("FPS system by blackshibe. Build by tonyredgraveX (massive0of, voyager0001)")
 local handler = {}
 local fpsMT = {__index = handler}	
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -244,7 +240,7 @@ function handler:equip(wepName)
 	
 	
 
-	self.settings = require(self.viewmodel.settings)--AAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+	self.settings = require(self.viewmodel.settings)
 
 	
 	if self.loadedAnimations.idle ~= nil then
@@ -1644,10 +1640,7 @@ end
 
 function handler:walldown(walling)
 
-	-- we'll be using this soon
-	-- We used it! ha!
-
-	-- add a TweenService variable at the top that references TweenService yourself, thanks
+	
 
 	if self.disabled then 
 
@@ -1683,10 +1676,7 @@ end
 
 function handler:wallup(walling)
 
-	-- we'll be using this soon
-	-- We used it! ha!
-
-	-- add a TweenService variable at the top that references TweenService yourself, thanks
+	
 
 	if self.disabled then 
 
@@ -1930,10 +1920,7 @@ end
 
 function handler:aim(toaim)
 
-	-- we'll be using this soon
-	-- We used it! ha!
-
-	-- add a TweenService variable at the top that references TweenService yourself, thanks
+	
 
 	if self.disabled or self.removing then 
 		
@@ -2070,7 +2057,7 @@ function handler:update(deltaTime)
 	if self.viewmodel and self.character:FindFirstChild('HumanoidRootPart')~=nil then
 		self.deltaTime = deltaTime
 		--self.character:FindFirstChild("HumanoidRootPart")
-		-- IF we have a gun right now. We're checking the viewmodel instead for "reasons".
+		
 
 		self.character.Humanoid.CameraOffset=Vector3.new(self.cOffsetValue.Value,self.cDownValue.Value,0)
 
@@ -2162,8 +2149,7 @@ function handler:update(deltaTime)
 			end
 		end
 		
-		-- for animations
-		-- breaks for some people? idk
+		
 		
 		local animatorCFrameDifference = self.lastReceiverRelativity or CFrame.new() * self.viewmodel.camera.CFrame:ToObjectSpace(self.viewmodel.rootPart.CFrame):Inverse()
 		local x,y,z = animatorCFrameDifference:ToOrientation()
@@ -2200,10 +2186,10 @@ function handler:update(deltaTime)
 		
 		local equipOffset = nvOffset:lerp(self.viewmodel.offsets.equip.Value, self.lerpValues.equip.Value)
 
-		-- it'll be final for a reason. You saw!
+		
 		local finalOffset = equipOffset
 
-		-- Let's get some mouse movement!
+		--  mouse movement
 		local mouseDelta = game:GetService("UserInputService"):GetMouseDelta()
 		if self.aiming then mouseDelta *= 0.1 end
 		self.springs.sway:shove(Vector3.new(mouseDelta.X / 200, mouseDelta.Y / 200)) --not sure if this needs deltaTime filtering
@@ -2223,13 +2209,13 @@ function handler:update(deltaTime)
 		
 		
 
-		-- See? Bobbing! contruct a vector3 with getBobbing.
+		-- contruct a vector3 with getBobbing.
 		local movementSway = Vector3.new(getBobbing(10, speed, modifier), getBobbing(5, speed, modifier),getBobbing(5, speed, modifier))
 
 		-- if velocity is 0, then so will the walk cycle
 		self.springs.walkCycle:shove((movementSway / 25) * deltaTime * 60 * velocity.Magnitude)
 
-		-- Sway! Yay!
+		-- Sway
 		local sway = self.springs.sway:update(deltaTime)
 		local walkCycle = self.springs.walkCycle:update(deltaTime)
 		local recoil = self.springs.fire:update(deltaTime)
@@ -2253,7 +2239,7 @@ function handler:update(deltaTime)
 			Camera.CFrame = CFrame.new(Camera.CFrame.p) * CFrame.fromOrientation(math.rad(lim), rY, rZ)
 		end
 
-		--ToWorldSpace basically means rootpart.CFrame = camera CFrame but offset by xxx while taking rotation into account. I don't know. You'll see how it works soon enough.
+		--ToWorldSpace basically means rootpart.CFrame = camera CFrame but offset by xxx while taking rotation into account. 
 		if self.hide~=true then
 			self.viewmodel.rootPart.CFrame = self.camera.CFrame:ToWorldSpace(finalOffset)
 			self.viewmodel.rootPart.CFrame = self.viewmodel.rootPart.CFrame:ToWorldSpace(CFrame.new(walkCycle.x / 4, walkCycle.y / 2, 0))
