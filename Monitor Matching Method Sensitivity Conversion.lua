@@ -1,3 +1,4 @@
+--from GodAimAkira https://www.godaimakira.com/post/monitor-distance-match-en/
 function mmm(ratio, sens, firstFOV, secondFOV) 
   fov0=firstFOV* 0.5 * math.pi / 180
   fov1 = secondFOV * 0.5 * math.pi / 180
